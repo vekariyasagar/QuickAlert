@@ -8,7 +8,7 @@ public class TaskModel implements Serializable {
     String taskName, taskCategory, taskType, taskDate, taskTime, taskAddress;
     Long taskMilliseconds;
     double taskLatitude, taskLongitude;
-    boolean taskCompleted;
+    int taskCompleted;
 
     public String getTaskAddress() {
         return taskAddress;
@@ -90,11 +90,11 @@ public class TaskModel implements Serializable {
         this.taskLongitude = taskLongitude;
     }
 
-    public boolean isTaskCompleted() {
+    public int isTaskCompleted() {
         return taskCompleted;
     }
 
-    public void setTaskCompleted(boolean taskCompleted) {
+    public void setTaskCompleted(int taskCompleted) {
         this.taskCompleted = taskCompleted;
     }
 }

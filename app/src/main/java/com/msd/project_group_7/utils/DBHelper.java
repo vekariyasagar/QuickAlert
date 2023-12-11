@@ -34,7 +34,7 @@ public class DBHelper extends SQLiteOpenHelper {
             + TASK_COLUMN_ADDRESS + " TEXT, "
             + TASK_COLUMN_LATITUDE + " DOUBLE, "
             + TASK_COLUMN_LONGITUDE + " DOUBLE, "
-            + TASK_COLUMN_COMPLETED + " BOOLEAN); ";
+            + TASK_COLUMN_COMPLETED + " INTEGER); ";
 
     static final String DROP_TABLE="DROP TABLE IF EXISTS " + TASK_TABLE_NAME;
 
@@ -90,7 +90,9 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursorObj;
     }
 
-    public Cursor getCompletedTask(boolean flag) {
+    // 0 - not completed
+    // 1 - completed
+    public Cursor getCompletedTask(int flag) {
         SQLiteDatabase db=this.getWritableDatabase();
         Cursor cursorObj;
         cursorObj=db.rawQuery("SELECT * FROM " + TASK_TABLE_NAME + " WHERE " + TASK_COLUMN_COMPLETED + " = " + flag, null);
