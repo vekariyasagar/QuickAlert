@@ -11,10 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.msd.project_group_7.R;
 import com.msd.project_group_7.activity.DateTimeActivity;
+import com.msd.project_group_7.activity.ViewTaskDetailActivity;
 import com.msd.project_group_7.databinding.ItemCategoryBinding;
 import com.msd.project_group_7.databinding.ItemTaskBinding;
 import com.msd.project_group_7.model.CategoryModel;
 import com.msd.project_group_7.model.TaskModel;
+import com.msd.project_group_7.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -65,18 +67,20 @@ public class TaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 taskBinding.imgCategory.setImageResource(R.drawable.location);
                 taskBinding.txtSubText.setText(taskModel.getTaskAddress());
             } else {
-                taskBinding.imgCategory.setImageResource(getImageFromCategory(taskModel.getTaskCategory()));
+                taskBinding.imgCategory.setImageResource(Utils.getImageFromCategory(activity, taskModel.getTaskCategory()));
                 taskBinding.txtSubText.setText(taskModel.getTaskDate() + " " + taskModel.getTaskTime());
             }
 
             taskBinding.txtName.setText(taskModel.getTaskName());
+            taskBinding.mainLout.setOnClickListener(this);
 
         }
 
         @Override
         public void onClick(View view) {
             if(view.getId() == R.id.mainLout){
-
+                activity.startActivity(new Intent(activity, ViewTaskDetailActivity.class)
+                        .putExtra("taskModel", taskArray.get(position)));
             }
         }
 
@@ -88,26 +92,6 @@ public class TaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return taskArray.size();
     }
 
-    int getImageFromCategory(String category) {
-        if(category.equals(activity.getString(R.string.work))){
-            return R.drawable.work;
-        } else if(category.equals(activity.getString(R.string.education))){
-            return R.drawable.education;
-        } else if(category.equals(activity.getString(R.string.health))){
-            return R.drawable.health;
-        } else if(category.equals(activity.getString(R.string.shopping))){
-            return R.drawable.shopping;
-        } else if(category.equals(activity.getString(R.string.social))){
-            return R.drawable.social;
-        } else if(category.equals(activity.getString(R.string.travel))){
-            return R.drawable.travel;
-        } else if(category.equals(activity.getString(R.string.entertainment))){
-            return R.drawable.entertainment;
-        } else if(category.equals(activity.getString(R.string.family))){
-            return R.drawable.family;
-        } else {
-            return R.drawable.hobbies;
-        }
-    }
+
 
 }

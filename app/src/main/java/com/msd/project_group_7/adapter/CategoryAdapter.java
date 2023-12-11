@@ -75,7 +75,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if(view.getId() == R.id.mainLout){
                 taskModel.setTaskCategory(categoryArray.get(position).getName());
                 activity.startActivity(new Intent(activity, DateTimeActivity.class)
-                        .putExtra("isFrom","Add").putExtra("taskModel", taskModel));
+                        .putExtra("isFrom",isFrom).putExtra("taskModel", taskModel));
             }
         }
 
