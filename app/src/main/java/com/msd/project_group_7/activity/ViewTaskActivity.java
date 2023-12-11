@@ -39,13 +39,15 @@ public class ViewTaskActivity extends AppCompatActivity {
     }
 
     private void init(){
-
-        db = new DBHelper(this);
-
         setLayout();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        db = new DBHelper(this);
         GetAllTasks();
         bindAdapter();
-
     }
 
     private void setLayout(){
@@ -85,7 +87,6 @@ public class ViewTaskActivity extends AppCompatActivity {
                 } while (cursor.moveToNext());
                 cursor.close();
                 db.close();
-                Log.e("AA_S", taskList.toString());
             }
         }
     }

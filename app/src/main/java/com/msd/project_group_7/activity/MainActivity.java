@@ -36,7 +36,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if(view.getId()==R.id.addTask){
-            startActivity(new Intent(this, TaskNameActivity.class));
+            startActivity(new Intent(this, TaskNameActivity.class)
+                    .putExtra("isFrom", "Add"));
         } else if(view.getId() == R.id.viewTask){
             startActivity(new Intent(this, ViewTaskActivity.class));
         }

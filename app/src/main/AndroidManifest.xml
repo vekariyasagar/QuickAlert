@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjectGroup7">
         <activity
+            android:name=".activity.ViewTaskDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.ViewTaskActivity"
             android:exported="false" />
 

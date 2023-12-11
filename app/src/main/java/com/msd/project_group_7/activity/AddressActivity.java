@@ -51,6 +51,11 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
         addressBinding.tvAddress.setOnClickListener(this);
         addressBinding.done.setOnClickListener(this);
 
+        if(isFrom.equals("edit")) {
+            address = taskModel.getTaskAddress();
+            addressBinding.tvAddress.setText(address);
+        }
+
     }
 
     @Override
@@ -65,17 +70,35 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
             if(address.equals("")) {
                 Toast.makeText(this, getString(R.string.enter_task_address), Toast.LENGTH_SHORT).show();
             }else {
-                taskModel.setTaskAddress(address);
-                taskModel.setTaskLatitude(lat);
-                taskModel.setTaskLongitude(lng);
-                boolean insertStatus = db.addTask(taskModel);
-                if(insertStatus) {
-                    Toast.makeText(this,getString(R.string.task_added_successfully), Toast.LENGTH_LONG).show();
-                    Intent i = new Intent(this, MainActivity.class);
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(i);
-                } else {
-                    Toast.makeText(this,getString(R.string.failure), Toast.LENGTH_LONG).show();
+                if(isFrom.equals("edit")) {
+                    taskModel.setTaskAddress(address);
+                    taskModel.setTaskLatitude(lat);
+                    taskModel.setTaskLongitude(lng);
+                    taskModel.setTaskDate(null);
+                    taskModel.setTaskTime(null);
+                    taskModel.setTaskMilliseconds(0l);
+                    boolean updateStatus = db.updateTaskById(taskModel);
+                    if (updateStatus) {
+                        Toast.makeText(this, getString(R.string.task_updated_successfully), Toast.LENGTH_LONG).show();
+                        Intent i = new Intent(this, MainActivity.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(i);
+                    } else {
+                        Toast.makeText(this, getString(R.string.failure), Toast.LENGTH_LONG).show();
+                    }
+                }else{
+                    taskModel.setTaskAddress(address);
+                    taskModel.setTaskLatitude(lat);
+                    taskModel.setTaskLongitude(lng);
+                    boolean insertStatus = db.addTask(taskModel);
+                    if(insertStatus) {
+                        Toast.makeText(this,getString(R.string.task_added_successfully), Toast.LENGTH_LONG).show();
+                        Intent i = new Intent(this, MainActivity.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(i);
+                    } else {
+                        Toast.makeText(this,getString(R.string.failure), Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         }

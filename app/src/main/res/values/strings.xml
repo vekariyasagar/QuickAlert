@@ -27,7 +27,9 @@
     <string name="enter_task_date">Please select task date</string>
     <string name="enter_task_time">Please select task time</string>
     <string name="task_added_successfully">Task added successfully</string>
-    <string name="failure">Record insertion failure</string>
+    <string name="failure">Task failure</string>
     <string name="task_list">Task List</string>
+    <string name="task_delete_successfully">Task delete successfully</string>
+    <string name="task_updated_successfully">Task updated successfully</string>
 
 </resources>

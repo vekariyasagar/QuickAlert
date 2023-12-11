@@ -44,11 +44,11 @@ public class LocationActivity extends AppCompatActivity implements View.OnClickL
         if(view.getId() == R.id.no) {
             taskModel.setTaskType("Normal");
             startActivity(new Intent(this, CategoryActivity.class)
-                    .putExtra("isFrom","Add").putExtra("taskModel", taskModel));
+                    .putExtra("isFrom",isFrom).putExtra("taskModel", taskModel));
         } else if(view.getId() == R.id.yes) {
             taskModel.setTaskType("Location");
             startActivity(new Intent(this, AddressActivity.class)
-                    .putExtra("isFrom","Add").putExtra("taskModel", taskModel));
+                    .putExtra("isFrom",isFrom).putExtra("taskModel", taskModel));
         }
     }
 }

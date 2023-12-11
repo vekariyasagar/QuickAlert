@@ -21,6 +21,8 @@ public class TaskNameActivity extends AppCompatActivity implements View.OnClickL
     ActivityTaskNameBinding taskNameBinding;
     private static final int SPEECH_REQUEST_CODE = 100;
     TaskModel taskModel;
+    String isFrom = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +30,8 @@ public class TaskNameActivity extends AppCompatActivity implements View.OnClickL
         taskNameBinding = ActivityTaskNameBinding.inflate(getLayoutInflater());
         View view = taskNameBinding.getRoot();
         setContentView(view);
+
+        isFrom = getIntent().getStringExtra("isFrom");
 
         init();
 
@@ -37,6 +41,13 @@ public class TaskNameActivity extends AppCompatActivity implements View.OnClickL
 
         taskNameBinding.mic.setOnClickListener(this);
         taskNameBinding.next.setOnClickListener(this);
+
+        if(isFrom.equals("edit")) {
+            taskModel = (TaskModel) getIntent().getSerializableExtra("taskModel");
+            taskNameBinding.edtTaskName.setText(taskModel.getTaskName());
+        } else {
+            taskModel = new TaskModel();
+        }
 
     }
 
@@ -50,10 +61,9 @@ public class TaskNameActivity extends AppCompatActivity implements View.OnClickL
             if(taskNameBinding.edtTaskName.getText().toString().equals("")){
                 Toast.makeText(this, getString(R.string.enter_task_name), Toast.LENGTH_SHORT).show();
             } else {
-                taskModel = new TaskModel();
                 taskModel.setTaskName(taskNameBinding.edtTaskName.getText().toString());
                 startActivity(new Intent(this, LocationActivity.class)
-                        .putExtra("isFrom","Add").putExtra("taskModel", taskModel));
+                        .putExtra("isFrom",isFrom).putExtra("taskModel", taskModel));
             }
         }
     }

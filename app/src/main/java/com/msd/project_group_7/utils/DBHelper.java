@@ -70,6 +70,30 @@ public class DBHelper extends SQLiteOpenHelper {
         return ((result==-1) ? false : true);
     }
 
+    public boolean updateTaskById(TaskModel taskModel) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(TASK_COLUMN_NAME, taskModel.getTaskName());
+        values.put(TASK_COLUMN_CATEGORY, taskModel.getTaskCategory());
+        values.put(TASK_COLUMN_TYPE, taskModel.getTaskType());
+        values.put(TASK_COLUMN_DATE, taskModel.getTaskDate());
+        values.put(TASK_COLUMN_TIME, taskModel.getTaskTime());
+        values.put(TASK_COLUMN_MILLISECONDS, taskModel.getTaskMilliseconds());
+        values.put(TASK_COLUMN_ADDRESS, taskModel.getTaskAddress());
+        values.put(TASK_COLUMN_LATITUDE, taskModel.getTaskLatitude());
+        values.put(TASK_COLUMN_LONGITUDE, taskModel.getTaskLongitude());
+        values.put(TASK_COLUMN_COMPLETED, taskModel.isTaskCompleted());
+
+        String selection = TASK_COLUMN_ID + " = ?";
+        String[] selectionArgs = {String.valueOf(taskModel.getTaskId())};
+
+        long result = db.update(TASK_TABLE_NAME, values, selection, selectionArgs);
+        db.close();
+        return ((result==-1) ? false : true);
+    }
+
     public Cursor getAllTask() {
         SQLiteDatabase db=this.getWritableDatabase();
         Cursor cursorObj;

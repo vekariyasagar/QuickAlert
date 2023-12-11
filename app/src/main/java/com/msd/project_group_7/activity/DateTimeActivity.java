@@ -53,6 +53,15 @@ public class DateTimeActivity extends AppCompatActivity implements View.OnClickL
         dateTimeBinding.timeLout.setOnClickListener(this);
         dateTimeBinding.done.setOnClickListener(this);
 
+        if(isFrom.equals("edit")) {
+
+            dueDate = taskModel.getTaskDate();
+            dueTime = taskModel.getTaskTime();
+            dateTimeBinding.tvDate.setText(dueDate);
+            dateTimeBinding.tvTime.setText(dueTime);
+
+        }
+
     }
 
     @Override
@@ -67,17 +76,37 @@ public class DateTimeActivity extends AppCompatActivity implements View.OnClickL
             } else if(dueTime.equals("")) {
                 Toast.makeText(this, getString(R.string.enter_task_time), Toast.LENGTH_SHORT).show();
             } else {
-                taskModel.setTaskDate(dueDate);
-                taskModel.setTaskTime(dueTime);
-                taskModel.setTaskMilliseconds(calSet.getTimeInMillis());
-                boolean insertStatus = db.addTask(taskModel);
-                if(insertStatus) {
-                    Toast.makeText(this,getString(R.string.task_added_successfully), Toast.LENGTH_LONG).show();
-                    Intent i = new Intent(this, MainActivity.class);
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(i);
+                if(isFrom.equals("edit")) {
+                    if(!taskModel.getTaskDate().equals(dateTimeBinding.tvDate.getText().toString())){
+                        taskModel.setTaskMilliseconds(calSet.getTimeInMillis());
+                        taskModel.setTaskDate(dueDate);
+                        taskModel.setTaskTime(dueTime);
+                        taskModel.setTaskAddress("");
+                        taskModel.setTaskLatitude(0);
+                        taskModel.setTaskLongitude(0);
+                    }
+                    boolean updateStatus = db.updateTaskById(taskModel);
+                    if (updateStatus) {
+                        Toast.makeText(this, getString(R.string.task_updated_successfully), Toast.LENGTH_LONG).show();
+                        Intent i = new Intent(this, MainActivity.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(i);
+                    } else {
+                        Toast.makeText(this, getString(R.string.failure), Toast.LENGTH_LONG).show();
+                    }
                 } else {
-                    Toast.makeText(this,getString(R.string.failure), Toast.LENGTH_LONG).show();
+                    taskModel.setTaskDate(dueDate);
+                    taskModel.setTaskTime(dueTime);
+                    taskModel.setTaskMilliseconds(calSet.getTimeInMillis());
+                    boolean insertStatus = db.addTask(taskModel);
+                    if (insertStatus) {
+                        Toast.makeText(this, getString(R.string.task_added_successfully), Toast.LENGTH_LONG).show();
+                        Intent i = new Intent(this, MainActivity.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(i);
+                    } else {
+                        Toast.makeText(this, getString(R.string.failure), Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         }
