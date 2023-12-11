@@ -16,6 +16,7 @@ import com.msd.project_group_7.databinding.ActivityAddressBinding;
 import com.msd.project_group_7.databinding.ActivityDateTimeBinding;
 import com.msd.project_group_7.model.TaskModel;
 import com.msd.project_group_7.utils.DBHelper;
+import com.msd.project_group_7.utils.Utils;
 
 import java.util.Arrays;
 
@@ -79,6 +80,8 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
                     taskModel.setTaskMilliseconds(0l);
                     boolean updateStatus = db.updateTaskById(taskModel);
                     if (updateStatus) {
+                        Utils.cancelAlarm(this, taskModel.getTaskId());
+                        Utils.setAlarm(this,taskModel);
                         Toast.makeText(this, getString(R.string.task_updated_successfully), Toast.LENGTH_LONG).show();
                         Intent i = new Intent(this, MainActivity.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -90,8 +93,10 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
                     taskModel.setTaskAddress(address);
                     taskModel.setTaskLatitude(lat);
                     taskModel.setTaskLongitude(lng);
-                    boolean insertStatus = db.addTask(taskModel);
-                    if(insertStatus) {
+                    long taskId = db.addTask(taskModel);
+                    if(taskId!=-1) {
+                        taskModel.setTaskId((int) taskId);
+                        Utils.setAlarm(this,taskModel);
                         Toast.makeText(this,getString(R.string.task_added_successfully), Toast.LENGTH_LONG).show();
                         Intent i = new Intent(this, MainActivity.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

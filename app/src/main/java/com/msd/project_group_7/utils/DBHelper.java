@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.msd.project_group_7.model.TaskModel;
 
@@ -53,7 +54,7 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean addTask(TaskModel task) {
+    public long addTask(TaskModel task) {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues cv=new ContentValues();
         cv.put(TASK_COLUMN_NAME,task.getTaskName());
@@ -66,8 +67,7 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(TASK_COLUMN_LATITUDE,task.getTaskLatitude());
         cv.put(TASK_COLUMN_LONGITUDE,task.getTaskLongitude());
         cv.put(TASK_COLUMN_COMPLETED,task.isTaskCompleted());
-        long result = db.insert(TASK_TABLE_NAME, null,cv);
-        return ((result==-1) ? false : true);
+        return db.insert(TASK_TABLE_NAME, null,cv);
     }
 
     public boolean updateTaskById(TaskModel taskModel) {
@@ -94,6 +94,16 @@ public class DBHelper extends SQLiteOpenHelper {
         return ((result==-1) ? false : true);
     }
 
+    public void setTaskCompletedById(TaskModel taskModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(TASK_COLUMN_COMPLETED, 1);
+        String selection = TASK_COLUMN_ID + " = ?";
+        String[] selectionArgs = {String.valueOf(taskModel.getTaskId())};
+        db.update(TASK_TABLE_NAME, values, selection, selectionArgs);
+        db.close();
+    }
+
     public Cursor getAllTask() {
         SQLiteDatabase db=this.getWritableDatabase();
         Cursor cursorObj;
@@ -104,14 +114,66 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursorObj;
     }
 
-    public Cursor getTaskById(TaskModel task) {
-        SQLiteDatabase db=this.getWritableDatabase();
-        Cursor cursorObj;
-        cursorObj=db.rawQuery("SELECT * FROM " + TASK_TABLE_NAME + " WHERE " + TASK_COLUMN_ID + " = " + task.getTaskId(), null);
-        if(cursorObj != null) {
-            cursorObj.moveToFirst();
+    public TaskModel getTaskById(int taskId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Define columns to retrieve
+        String[] projection = {
+                TASK_COLUMN_ID,
+                TASK_COLUMN_NAME,
+                TASK_COLUMN_CATEGORY,
+                TASK_COLUMN_TYPE,
+                TASK_COLUMN_DATE,
+                TASK_COLUMN_TIME,
+                TASK_COLUMN_MILLISECONDS,
+                TASK_COLUMN_ADDRESS,
+                TASK_COLUMN_LATITUDE,
+                TASK_COLUMN_LONGITUDE,
+                TASK_COLUMN_COMPLETED
+        };
+
+        // Define selection criteria
+        String selection = TASK_COLUMN_ID + " = ?";
+        String[] selectionArgs = {String.valueOf(taskId)};
+
+        Log.e("AA_S", taskId+"--");
+
+        // Query the database
+        Cursor cursor = db.query(
+                TASK_TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        TaskModel task = null;
+
+        if (cursor != null && cursor.moveToFirst()) {
+            // Extract data from the cursor and create a Task object
+            task = new TaskModel();
+            task.setTaskId(cursor.getInt(cursor.getColumnIndexOrThrow(TASK_COLUMN_ID)));
+            task.setTaskName(cursor.getString(cursor.getColumnIndexOrThrow(TASK_COLUMN_NAME)));
+            task.setTaskCategory(cursor.getString(cursor.getColumnIndexOrThrow(TASK_COLUMN_CATEGORY)));
+            task.setTaskType(cursor.getString(cursor.getColumnIndexOrThrow(TASK_COLUMN_TYPE)));
+            task.setTaskDate(cursor.getString(cursor.getColumnIndexOrThrow(TASK_COLUMN_DATE)));
+            task.setTaskTime(cursor.getString(cursor.getColumnIndexOrThrow(TASK_COLUMN_TIME)));
+            task.setTaskMilliseconds(cursor.getLong(cursor.getColumnIndexOrThrow(TASK_COLUMN_MILLISECONDS)));
+            task.setTaskAddress(cursor.getString(cursor.getColumnIndexOrThrow(TASK_COLUMN_ADDRESS)));
+            task.setTaskLatitude(cursor.getDouble(cursor.getColumnIndexOrThrow(TASK_COLUMN_LATITUDE)));
+            task.setTaskLongitude(cursor.getDouble(cursor.getColumnIndexOrThrow(TASK_COLUMN_LONGITUDE)));
+            task.setTaskCompleted(cursor.getInt(cursor.getColumnIndexOrThrow(TASK_COLUMN_COMPLETED)));
+
+            // Close the cursor
+            cursor.close();
         }
-        return cursorObj;
+
+        // Close the database
+        db.close();
+
+        return task;
     }
 
     // 0 - not completed

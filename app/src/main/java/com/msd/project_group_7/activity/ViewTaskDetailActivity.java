@@ -19,6 +19,7 @@ public class ViewTaskDetailActivity extends AppCompatActivity implements View.On
     ActivityViewTaskDetailBinding detailBinding;
     TaskModel taskModel;
     DBHelper db;
+    String isFrom = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,7 @@ public class ViewTaskDetailActivity extends AppCompatActivity implements View.On
         View view = detailBinding.getRoot();
         setContentView(view);
 
+        isFrom = getIntent().getStringExtra("isFrom");
         taskModel = (TaskModel) getIntent().getSerializableExtra("taskModel");
 
         init();
@@ -42,13 +44,21 @@ public class ViewTaskDetailActivity extends AppCompatActivity implements View.On
         detailBinding.delete.setOnClickListener(this);
         detailBinding.update.setOnClickListener(this);
 
+        if(isFrom.equals("notification")){
+            detailBinding.bottomLout.setVisibility(View.GONE);
+        } else {
+            detailBinding.bottomLout.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override
     public void onClick(View view) {
         if(view.getId() == R.id.delete) {
+            int taskId = taskModel.getTaskId();
             boolean deleteStatus = db.deleteTaskById(taskModel);
             if(deleteStatus) {
+                Utils.cancelAlarm(this, taskId);
                 Toast.makeText(this,getString(R.string.task_delete_successfully), Toast.LENGTH_LONG).show();
                 finish();
             } else {

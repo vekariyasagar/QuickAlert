@@ -97,4 +97,21 @@ public class TaskModel implements Serializable {
     public void setTaskCompleted(int taskCompleted) {
         this.taskCompleted = taskCompleted;
     }
+
+    @Override
+    public String toString() {
+        return "TaskModel{" +
+                "taskId=" + taskId +
+                ", taskName='" + taskName + '\'' +
+                ", taskCategory='" + taskCategory + '\'' +
+                ", taskType='" + taskType + '\'' +
+                ", taskDate='" + taskDate + '\'' +
+                ", taskTime='" + taskTime + '\'' +
+                ", taskAddress='" + taskAddress + '\'' +
+                ", taskMilliseconds=" + taskMilliseconds +
+                ", taskLatitude=" + taskLatitude +
+                ", taskLongitude=" + taskLongitude +
+                ", taskCompleted=" + taskCompleted +
+                '}';
+    }
 }
