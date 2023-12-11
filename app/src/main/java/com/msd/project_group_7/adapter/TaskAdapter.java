@@ -80,7 +80,8 @@ public class TaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void onClick(View view) {
             if(view.getId() == R.id.mainLout){
                 activity.startActivity(new Intent(activity, ViewTaskDetailActivity.class)
-                        .putExtra("taskModel", taskArray.get(position)));
+                        .putExtra("taskModel", taskArray.get(position))
+                        .putExtra("isFrom", "adapter"));
             }
         }
 

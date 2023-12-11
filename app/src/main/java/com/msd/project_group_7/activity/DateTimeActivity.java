@@ -16,6 +16,7 @@ import com.msd.project_group_7.databinding.ActivityDateTimeBinding;
 import com.msd.project_group_7.databinding.ActivityLocationBinding;
 import com.msd.project_group_7.model.TaskModel;
 import com.msd.project_group_7.utils.DBHelper;
+import com.msd.project_group_7.utils.Utils;
 
 import java.util.Calendar;
 
@@ -77,6 +78,7 @@ public class DateTimeActivity extends AppCompatActivity implements View.OnClickL
                 Toast.makeText(this, getString(R.string.enter_task_time), Toast.LENGTH_SHORT).show();
             } else {
                 if(isFrom.equals("edit")) {
+                    calSet.add(Calendar.MINUTE, -30);
                     if(!taskModel.getTaskDate().equals(dateTimeBinding.tvDate.getText().toString())){
                         taskModel.setTaskMilliseconds(calSet.getTimeInMillis());
                         taskModel.setTaskDate(dueDate);
@@ -87,6 +89,8 @@ public class DateTimeActivity extends AppCompatActivity implements View.OnClickL
                     }
                     boolean updateStatus = db.updateTaskById(taskModel);
                     if (updateStatus) {
+                        Utils.cancelAlarm(this, taskModel.getTaskId());
+                        Utils.setAlarm(this,taskModel);
                         Toast.makeText(this, getString(R.string.task_updated_successfully), Toast.LENGTH_LONG).show();
                         Intent i = new Intent(this, MainActivity.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -95,11 +99,14 @@ public class DateTimeActivity extends AppCompatActivity implements View.OnClickL
                         Toast.makeText(this, getString(R.string.failure), Toast.LENGTH_LONG).show();
                     }
                 } else {
+                    calSet.add(Calendar.MINUTE, -30);
                     taskModel.setTaskDate(dueDate);
                     taskModel.setTaskTime(dueTime);
                     taskModel.setTaskMilliseconds(calSet.getTimeInMillis());
-                    boolean insertStatus = db.addTask(taskModel);
-                    if (insertStatus) {
+                    long taskId = db.addTask(taskModel);
+                    if (taskId!=-1) {
+                        taskModel.setTaskId((int) taskId);
+                        Utils.setAlarm(this,taskModel);
                         Toast.makeText(this, getString(R.string.task_added_successfully), Toast.LENGTH_LONG).show();
                         Intent i = new Intent(this, MainActivity.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
