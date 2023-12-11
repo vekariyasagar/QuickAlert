@@ -12,7 +12,7 @@ android {
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
-
+        multiDexEnabled = true
     }
 
     buildTypes {
@@ -44,4 +44,9 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.code.gson:gson:2.8.9")
     implementation("androidx.wear:wear:1.3.0")
+    implementation("com.google.android.gms:play-services-location:17.0.0")
+    implementation("com.google.android.libraries.places:places:2.0.0")
+    implementation("com.google.android.gms:play-services-places:17.0.0")
+    implementation("androidx.multidex:multidex:2.0.0")
+    implementation("com.android.volley:volley:1.2.1")
 }

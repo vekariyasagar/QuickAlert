@@ -19,6 +19,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TASK_COLUMN_DATE = "taskDate";
     public static final String TASK_COLUMN_TIME = "taskTime";
     public static final String TASK_COLUMN_MILLISECONDS = "taskMilliseconds";
+    public static final String TASK_COLUMN_ADDRESS = "taskAddress";
     public static final String TASK_COLUMN_LATITUDE = "taskLatitude";
     public static final String TASK_COLUMN_LONGITUDE = "taskLongitude";
     public static final String TASK_COLUMN_COMPLETED = "taskCompleted";
@@ -30,8 +31,9 @@ public class DBHelper extends SQLiteOpenHelper {
             + TASK_COLUMN_DATE + " TEXT, "
             + TASK_COLUMN_TIME + " TEXT, "
             + TASK_COLUMN_MILLISECONDS + " LONG, "
-            + TASK_COLUMN_LATITUDE + " LONG, "
-            + TASK_COLUMN_LONGITUDE + " LONG, "
+            + TASK_COLUMN_ADDRESS + " TEXT, "
+            + TASK_COLUMN_LATITUDE + " DOUBLE, "
+            + TASK_COLUMN_LONGITUDE + " DOUBLE, "
             + TASK_COLUMN_COMPLETED + " BOOLEAN); ";
 
     static final String DROP_TABLE="DROP TABLE IF EXISTS " + TASK_TABLE_NAME;
@@ -60,6 +62,7 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(TASK_COLUMN_DATE,task.getTaskDate());
         cv.put(TASK_COLUMN_TIME,task.getTaskTime());
         cv.put(TASK_COLUMN_MILLISECONDS,task.getTaskMilliseconds());
+        cv.put(TASK_COLUMN_ADDRESS,task.getTaskAddress());
         cv.put(TASK_COLUMN_LATITUDE,task.getTaskLatitude());
         cv.put(TASK_COLUMN_LONGITUDE,task.getTaskLongitude());
         cv.put(TASK_COLUMN_COMPLETED,task.isTaskCompleted());

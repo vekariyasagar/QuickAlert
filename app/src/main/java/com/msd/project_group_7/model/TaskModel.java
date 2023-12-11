@@ -5,9 +5,18 @@ import java.io.Serializable;
 public class TaskModel implements Serializable {
 
     int taskId;
-    String taskName, taskCategory, taskType, taskDate, taskTime;
-    Long taskMilliseconds, taskLatitude, taskLongitude;
+    String taskName, taskCategory, taskType, taskDate, taskTime, taskAddress;
+    Long taskMilliseconds;
+    double taskLatitude, taskLongitude;
     boolean taskCompleted;
+
+    public String getTaskAddress() {
+        return taskAddress;
+    }
+
+    public void setTaskAddress(String taskAddress) {
+        this.taskAddress = taskAddress;
+    }
 
     public int getTaskId() {
         return taskId;
@@ -65,19 +74,19 @@ public class TaskModel implements Serializable {
         this.taskMilliseconds = taskMilliseconds;
     }
 
-    public Long getTaskLatitude() {
+    public double getTaskLatitude() {
         return taskLatitude;
     }
 
-    public void setTaskLatitude(Long taskLatitude) {
+    public void setTaskLatitude(double taskLatitude) {
         this.taskLatitude = taskLatitude;
     }
 
-    public Long getTaskLongitude() {
+    public double getTaskLongitude() {
         return taskLongitude;
     }
 
-    public void setTaskLongitude(Long taskLongitude) {
+    public void setTaskLongitude(double taskLongitude) {
         this.taskLongitude = taskLongitude;
     }
 
