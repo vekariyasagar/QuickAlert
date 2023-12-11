@@ -4,11 +4,32 @@
     <uses-feature android:name="android.hardware.type.watch" />
 
     <application
+        android:name=".MyApplicationClass"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjectGroup7">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/place_api_key" />
+
+        <activity
+            android:name=".activity.AddressActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.DateTimeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.LocationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.CategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.TaskNameActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.SplashActivity"
             android:exported="true">
@@ -20,7 +41,7 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:exported="false"/>
+            android:exported="false" />
     </application>
 
 </manifest>

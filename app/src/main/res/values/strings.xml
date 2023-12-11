@@ -1,3 +1,32 @@
 <resources>
     <string name="app_name">QuickAlert</string>
+    <string name="add_task">Add Task</string>
+    <string name="view_task">View Task</string>
+    <string name="task_name">Task Name</string>
+    <string name="category">Category</string>
+
+    <string name="work">Work</string>
+    <string name="education">Education</string>
+    <string name="health">Health</string>
+    <string name="shopping">Shopping</string>
+    <string name="social">Social</string>
+    <string name="travel">Travel</string>
+    <string name="entertainment">Entertainment</string>
+    <string name="family">Family</string>
+    <string name="hobbies">Hobbies</string>
+    <string name="location_based">Location Based\nAlert?</string>
+    <string name="date_time">Date &amp; time</string>
+    <string name="select_date">Select Date</string>
+    <string name="select_time">Select Time</string>
+    <string name="address">Address</string>
+
+    <string name="place_api_key">AIzaSyCZZAlZvbVGFFZMAU_IpS07r6mw8g6H38w</string>
+    <string name="google_places_api_key">AIzaSyCZZAlZvbVGFFZMAU_IpS07r6mw8g6H38w</string>
+    <string name="enter_task_name">Please enter task name</string>
+    <string name="enter_task_address">Please select address</string>
+    <string name="enter_task_date">Please select task date</string>
+    <string name="enter_task_time">Please select task time</string>
+    <string name="task_added_successfully">Task added successfully</string>
+    <string name="failure">Record insertion failure</string>
+
 </resources>

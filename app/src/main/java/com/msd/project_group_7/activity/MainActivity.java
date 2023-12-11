@@ -10,7 +10,7 @@ import android.view.View;
 import com.msd.project_group_7.R;
 import com.msd.project_group_7.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     ActivityMainBinding mainBinding;
 
@@ -28,8 +28,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void init() {
 
-
+        mainBinding.addTask.setOnClickListener(this);
 
     }
 
+    @Override
+    public void onClick(View view) {
+        if(view.getId()==R.id.addTask){
+            startActivity(new Intent(this, TaskNameActivity.class));
+        }
+    }
 }
