@@ -28,5 +28,6 @@
     <string name="enter_task_time">Please select task time</string>
     <string name="task_added_successfully">Task added successfully</string>
     <string name="failure">Record insertion failure</string>
+    <string name="task_list">Task List</string>
 
 </resources>

@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void init() {
 
         mainBinding.addTask.setOnClickListener(this);
+        mainBinding.viewTask.setOnClickListener(this);
 
     }
 
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         if(view.getId()==R.id.addTask){
             startActivity(new Intent(this, TaskNameActivity.class));
+        } else if(view.getId() == R.id.viewTask){
+            startActivity(new Intent(this, ViewTaskActivity.class));
         }
     }
 }
