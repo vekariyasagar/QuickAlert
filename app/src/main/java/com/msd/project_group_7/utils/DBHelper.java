@@ -114,6 +114,17 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursorObj;
     }
 
+    public Cursor getLocationBasedTask() {
+        SQLiteDatabase db=this.getWritableDatabase();
+        Cursor cursorObj;
+        String q = "SELECT * FROM " + TASK_TABLE_NAME + " WHERE " + TASK_COLUMN_TYPE + "='Location' AND " + TASK_COLUMN_COMPLETED + "=0";
+        cursorObj=db.rawQuery(q, null);
+        if(cursorObj != null) {
+            cursorObj.moveToFirst();
+        }
+        return cursorObj;
+    }
+
     public TaskModel getTaskById(int taskId) {
         SQLiteDatabase db = this.getReadableDatabase();
 
